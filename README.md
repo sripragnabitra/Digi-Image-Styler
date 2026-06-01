@@ -133,6 +133,21 @@ Returns: `image/png` binary response.
 4. The model returns a stylized PIL image, which is streamed back as PNG.
 5. The frontend displays the result and offers a one-click download.
 
+## Some Examples
+<img width="160" height="240" alt="content3" src="https://github.com/user-attachments/assets/e2acc89e-e551-46d6-86a0-d4b8719e34b2" /> + 
+<img width="300" height="235" alt="style1" src="https://github.com/user-attachments/assets/2cd23af8-db61-4e9b-b951-080dfd192389" /> = 
+<img width="160" height="240" alt="stylized-image (2)" src="https://github.com/user-attachments/assets/70b7c405-db1f-43da-bf72-c4b0acc3a02a" />
+
+---
+
+<img width="160" height="240" alt="content2" src="https://github.com/user-attachments/assets/7db400a1-9668-4e64-8c5e-648f11a9089e" /> +
+<img width="300" height="225" alt="image" src="https://github.com/user-attachments/assets/caaaf2dd-aeff-4e3d-bde4-50528dd7d7b9" />  =
+<img width="160" height="240" alt="stylized-image (1)" src="https://github.com/user-attachments/assets/1a14ea94-6421-432a-9e64-9237a3b3e624" />
+
+
+
+
+
 ---
 
 ## License
