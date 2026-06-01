@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ─────────────────────────────────────── */
+:root {
+  --ink:          #0d0d0f;
+  --canvas:       #13131a;
+  --surface:      #1a1a24;
+  --surface2:     #22222f;
+  --border:       rgba(255,255,255,0.07);
+  --border-hi:    rgba(255,255,255,0.14);
+  --gold:         #c9a84c;
+  --gold-light:   #e8c87a;
+  --gold-dim:     rgba(201,168,76,0.15);
+  --teal:         #3ecfb2;
+  --teal-dim:     rgba(62,207,178,0.12);
+  --rose:         #e0607e;
+  --rose-dim:     rgba(224,96,126,0.1);
+  --text:         #e8e6df;
+  --muted:        #7a7870;
+}
+
+/* ── Base ──────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--ink);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle noise grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.3;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+/* ── Typography helpers ────────────────────────────────── */
+.font-display { font-family: 'Playfair Display', serif; }
+
+/* ── Keyframes ─────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+@keyframes spin  { to { transform: rotate(360deg); } }
+@keyframes pulseRing {
+  0%   { box-shadow: 0 0 0 0   rgba(201,168,76,0.45); }
+  70%  { box-shadow: 0 0 0 12px rgba(201,168,76,0);   }
+  100% { box-shadow: 0 0 0 0   rgba(201,168,76,0);    }
+}
+@keyframes blobFloat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-18px) scale(1.04); }
+}
+
+/* ── Utility classes ───────────────────────────────────── */
+.animate-fade-up          { animation: fadeUp 0.7s cubic-bezier(.22,1,.36,1) both; }
+.animate-fade-up-d1       { animation: fadeUp 0.7s 0.12s cubic-bezier(.22,1,.36,1) both; }
+.animate-fade-up-d2       { animation: fadeUp 0.7s 0.24s cubic-bezier(.22,1,.36,1) both; }
+.animate-fade-up-d3       { animation: fadeUp 0.7s 0.36s cubic-bezier(.22,1,.36,1) both; }
+.animate-fade-up-d4       { animation: fadeUp 0.7s 0.48s cubic-bezier(.22,1,.36,1) both; }
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--gold) 0%,
+    var(--gold-light) 38%,
+    #fff9ee 50%,
+    var(--gold-light) 62%,
+    var(--gold) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+.blob {
+  border-radius: 50%;
+  filter: blur(48px);
+  animation: blobFloat 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ── Cards ─────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+.card:hover {
+  border-color: var(--border-hi);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+}
+
+/* ── Drop zones ────────────────────────────────────────── */
+.drop-zone {
+  border: 1.5px dashed rgba(201,168,76,0.25);
+  background: linear-gradient(135deg, rgba(201,168,76,0.03) 0%, transparent 60%), var(--surface);
+  transition: border-color 0.25s, background 0.25s, transform 0.2s, box-shadow 0.25s;
+  cursor: pointer;
+}
+.drop-zone:hover {
+  border-color: rgba(201,168,76,0.6);
+  background: linear-gradient(135deg, rgba(201,168,76,0.07) 0%, transparent 60%), var(--surface2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.drop-zone.dragging {
+  border-color: var(--gold);
+  background: radial-gradient(ellipse at center, rgba(201,168,76,0.12) 0%, transparent 70%), var(--surface2);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.2);
+}
+
+/* ── Buttons ───────────────────────────────────────────── */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #b8922f 0%, var(--gold) 50%, var(--gold-light) 100%);
+  color: #0d0d0f;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 36px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s, transform 0.2s;
+  text-decoration: none;
+}
+.btn-gold::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.55s;
+}
+.btn-gold:hover::after { transform: translateX(100%); }
+.btn-gold:hover {
+  box-shadow: 0 8px 36px rgba(201,168,76,0.5);
+  transform: translateY(-2px);
+}
+.btn-gold:active { transform: translateY(0); }
+.btn-gold:disabled {
+  background: var(--surface2);
+  color: var(--muted);
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+}
+.btn-gold:disabled::after { display: none; }
+
+/* ── Tags / badges ─────────────────────────────────────── */
+.tag {
+  display: inline-block;
+  padding: 3px 11px;
+  border-radius: 100px;
+  font-size: 0.64rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* ── Spinner ───────────────────────────────────────────── */
+.spinner-ring {
+  border: 2px solid transparent;
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.85s linear infinite;
+}
+.spinner-pulse {
+  border-radius: 50%;
+  background: var(--gold-dim);
+  animation: pulseRing 2s ease infinite;
+}
